@@ -18,17 +18,21 @@ connection.connect(function(err) {
     // connection.end();
 });
 
-function start() {
-    displayProducts();
-}
-
 function displayProducts() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
+        console.log("SHOP");
+        console.log("============================");
         for (var i = 0; i < res.length; i++) {
-            console.log("ITEM ID: " + res[i].item_id + " | PRODUCT: " + res[i].product_name + " | DEPARTMENT: " + res[i].department_name + " | PRICE: $" + res[i].price + " | QUANTITY: " + res[i].stock_quantity);
+            console.log("ID: " + res[i].item_id);
+            console.log("PRODUCT: " + res[i].product_name);
+            console.log("DEPARTMENT: " + res[i].department_name);
+            console.log("PRICE: $" + res[i].price);
+            console.log("QUANTITY: " + res[i].stock_quantity);
+            console.log("============================");
+            // console.log("ITEM ID: " + res[i].item_id + " | PRODUCT: " + res[i].product_name + " | DEPARTMENT: " + res[i].department_name + " | PRICE: $" + res[i].price + " | QUANTITY: " + res[i].stock_quantity);
         }
-        console.log("=============================");
+        // console.log("===========================");
         // connection.end();
     });
 }
@@ -67,9 +71,10 @@ function placeOrder() {
                                 ],
                                 function(err) {
                                     if (err) throw err;
-                                    console.log("Thanks for your purchase! Your total was $" + answer.units * res[i].price + ".");
                                 }
                             );
+                            connection.end();
+                            console.log("Thanks for your purchase! Your total was $" + answer.units * res[i].price + ".");
                         } else {
                             console.log("Sorry, insufficient quantity! Try again later.");
                         }
