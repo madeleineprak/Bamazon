@@ -54,6 +54,22 @@ function menuOptions() {
       }
     });
 
+    function askNext() {
+        inquirer
+            .prompt({
+                name: "confirm",
+                type: "confirm",
+                message: "Would you like to do something else?"
+            })
+            .then(function(answer) {
+                if (answer.confirm) {
+                    menuOptions();
+                } else {
+                    connection.end();
+                }
+            })
+    }
+
     function viewProductsForSale() {
         connection.query("SELECT * FROM products", function(err, res) {
             if (err) throw err;
@@ -68,6 +84,7 @@ function menuOptions() {
                 console.log("============================");
                 // console.log("ITEM ID: " + res[i].item_id + " | PRODUCT: " + res[i].product_name + " | DEPARTMENT: " + res[i].department_name + " | PRICE: $" + res[i].price + " | QUANTITY: " + res[i].stock_quantity);
             }
+            askNext();
         });
     }
 
@@ -76,7 +93,7 @@ function menuOptions() {
     }
 
     function addToInventory() {
-        
+
     }
 
     function addNewProduct() {
