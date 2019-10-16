@@ -78,6 +78,7 @@ function placeOrder() {
     });
 }
 
+// Gives customer option to buy again
 function askToBuyAgain() {
     inquirer
         .prompt({
