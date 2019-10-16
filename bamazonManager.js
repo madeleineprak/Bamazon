@@ -1,9 +1,11 @@
+// Application for Bamazon Manager
 require("dotenv").config();
 var keys = require("./keys");
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 const cTable = require("console.table");
 
+// Connects to MySQL database
 var connection = mysql.createConnection({
     host: keys.sql.host,
     port: keys.sql.port,
@@ -17,6 +19,7 @@ connection.connect(function (err) {
     menuOptions();
 });
 
+// This displays the main menu options and runs the respective function.
 function menuOptions() {
     inquirer
         .prompt({
@@ -55,6 +58,7 @@ function menuOptions() {
             }
         });
 
+    // Once the manager is done with their first action, this allows them to choose another from the menu or exit.
     function askNext() {
         inquirer
             .prompt({
@@ -71,6 +75,7 @@ function menuOptions() {
             })
     }
 
+    // Allows the manager to view all products for sale.
     function viewProductsForSale() {
         connection.query("SELECT * FROM products", function (err, res) {
             if (err) throw err;
@@ -79,14 +84,16 @@ function menuOptions() {
         });
     }
 
+    // Allows the manager to view items that have less than 5 stock left.
     function viewLowInventory() {
-        connection.query("SELECT * FROM products HAVING stock_quantity < 100", function (err, res) {
+        connection.query("SELECT * FROM products HAVING stock_quantity < 5", function (err, res) {
             if (err) throw err;
             console.table(res);
             askNext();
         })
     }
 
+    // Allows the manager to update the inventory.
     function addToInventory() {
         connection.query("SELECT * FROM products", function (err, res) {
             if (err) throw err;
@@ -103,6 +110,7 @@ function menuOptions() {
                         message: "How many units would you like to add?"
                     }
                 ])
+                // Updates database with added units
                 .then(function(answer) {
                     for (var i = 0; i < res.length; i++) {
                         if (res[i].item_id === parseInt(answer.id)) {
@@ -127,6 +135,7 @@ function menuOptions() {
         })
     }
 
+    // Allows the manager to add a new product.
     function addNewProduct() {
         connection.query("SELECT * FROM products", function (err, res) {
             if (err) throw err;
@@ -153,6 +162,7 @@ function menuOptions() {
                         message: "How much is in stock?"
                     }
                 ])
+                // Adds new product to database
                 .then(function(answer) {
                     connection.query(
                         "INSERT INTO products SET ?",

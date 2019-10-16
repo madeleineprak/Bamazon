@@ -1,9 +1,11 @@
+// Application for Bamazon Manager
 require("dotenv").config();
 var keys = require("./keys");
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 const cTable = require("console.table");
 
+// Connects to MySQL database
 var connection = mysql.createConnection({
     host: keys.sql.host,
     port: keys.sql.port,
@@ -18,6 +20,7 @@ connection.connect(function(err) {
     placeOrder();
 });
 
+// Displays products for sale
 function displayProducts() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
@@ -27,6 +30,7 @@ function displayProducts() {
     });
 }
 
+// Allows customer to buy one of the products by taking in product id and number of units 
 function placeOrder() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
@@ -43,6 +47,7 @@ function placeOrder() {
                     message: "How many units would you like to buy?"
                 }
             ])
+            // Updates database if enough units
             .then(function(answer) {
                 for (var i = 0; i < res.length; i++) {
                     if (res[i].item_id === parseInt(answer.id)) {
