@@ -24,9 +24,7 @@ connection.connect(function(err) {
 function displayProducts() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
-        for (var i = 0; i < res.length; i++) {
-            console.table(res);
-        }
+        console.table(res);
     });
 }
 
@@ -53,10 +51,13 @@ function placeOrder() {
                     if (res[i].item_id === parseInt(answer.id)) {
                         if (res[i].stock_quantity >= answer.units) {
                             connection.query(
-                                "UPDATE products SET ? WHERE ?", 
+                                "UPDATE products SET ?, ? WHERE ?", 
                                 [
                                     {
                                         stock_quantity: (res[i].stock_quantity - answer.units)
+                                    },
+                                    {
+                                        product_sales: res[i].product_sales + (answer.units * res[i].price)
                                     },
                                     {
                                         item_id: parseInt(answer.id)
@@ -66,8 +67,8 @@ function placeOrder() {
                                     if (err) throw err;
                                 }
                             );
-                            connection.end();
                             console.log("Thanks for your purchase! Your total was $" + answer.units * res[i].price + ".");
+                            askToBuyAgain();
                         } else {
                             console.log("Sorry, insufficient quantity! Try again later.");
                         }
@@ -75,4 +76,21 @@ function placeOrder() {
                 }
             });
     });
+}
+
+function askToBuyAgain() {
+    inquirer
+        .prompt({
+            name: "confirm",
+            type: "confirm",
+            message: "Would you like to buy something else?"
+        })
+        .then(function (answer) {
+            if (answer.confirm) {
+                placeOrder();
+            } else {
+                console.log("Okay thanks for shopping, see you next time!");
+                connection.end();
+            }
+        })
 }

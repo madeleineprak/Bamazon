@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS bamazon;
 CREATE DATABASE bamazon;
 USE bamazon;
 
+-- Create products database
 CREATE TABLE products (
 	item_id INT NOT NULL AUTO_INCREMENT,
     product_name VARCHAR(100) NOT NULL,
@@ -11,6 +12,7 @@ CREATE TABLE products (
     PRIMARY KEY (item_id)
 );
 
+-- Adds products
 INSERT INTO products 
 	(product_name, department_name, price, stock_quantity)
 VALUES
@@ -26,3 +28,16 @@ VALUES
     ("Big Blanket", "Home & Kitchen", 50, 100),
     ("Purple Pan", "Home & Kitchen", 30, 100),
     ("Tall Table", "Home & Kitchen", 250, 100);
+
+
+-- Create departments database 
+CREATE TABLE departments (
+	department_id INT NOT NULL AUTO_INCREMENT,
+    department_name VARCHAR(100) NOT NULL,
+    over_head_costs DECIMAL(13, 2) default 0,
+    PRIMARY KEY (department_id)
+);
+
+--Adds product sales to products database
+ALTER TABLE products
+ADD COLUMN product_sales DECIMAL(13,2) default 0 AFTER stock_quantity;

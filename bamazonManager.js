@@ -167,7 +167,6 @@ function menuOptions() {
                     connection.query(
                         "INSERT INTO products SET ?",
                         {
-                            item_id: res.length + 1,
                             product_name: answer.name,
                             department_name: answer.department,
                             price: answer.price || 0,
