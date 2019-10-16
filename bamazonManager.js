@@ -128,6 +128,48 @@ function menuOptions() {
     }
 
     function addNewProduct() {
-
+        connection.query("SELECT * FROM products", function (err, res) {
+            if (err) throw err;
+            inquirer
+                .prompt([
+                    {
+                        name: "name",
+                        type: "input",
+                        message: "What is the product you would like to add?"
+                    },
+                    {
+                        name: "department",
+                        type: "input",
+                        message: "Which department does it belong to?"
+                    },
+                    {
+                        name: "price",
+                        type: "input",
+                        message: "What is the price of it?"
+                    },
+                    {
+                        name: "stock",
+                        type: "input",
+                        message: "How much is in stock?"
+                    }
+                ])
+                .then(function(answer) {
+                    connection.query(
+                        "INSERT INTO products SET ?",
+                        {
+                            item_id: res.length + 1,
+                            product_name: answer.name,
+                            department_name: answer.department,
+                            price: answer.price || 0,
+                            stock_quantity: answer.stock || 0
+                        },
+                        function(err) {
+                            if (err) throw err;
+                            console.log(answer.name + "(s) have been added.")
+                            askNext();
+                        }
+                    )
+                })
+        })
     }
 }

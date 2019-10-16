@@ -2,6 +2,7 @@ require("dotenv").config();
 var keys = require("./keys");
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+const cTable = require("console.table");
 
 var connection = mysql.createConnection({
     host: keys.sql.host,
@@ -15,25 +16,14 @@ connection.connect(function(err) {
     if (err) throw err;
     displayProducts();
     placeOrder();
-    // connection.end();
 });
 
 function displayProducts() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
-        console.log("SHOP");
-        console.log("============================");
         for (var i = 0; i < res.length; i++) {
-            console.log("ID: " + res[i].item_id);
-            console.log("PRODUCT: " + res[i].product_name);
-            console.log("DEPARTMENT: " + res[i].department_name);
-            console.log("PRICE: $" + res[i].price);
-            console.log("QUANTITY: " + res[i].stock_quantity);
-            console.log("============================");
-            // console.log("ITEM ID: " + res[i].item_id + " | PRODUCT: " + res[i].product_name + " | DEPARTMENT: " + res[i].department_name + " | PRICE: $" + res[i].price + " | QUANTITY: " + res[i].stock_quantity);
+            console.table(res);
         }
-        // console.log("===========================");
-        // connection.end();
     });
 }
 
@@ -54,9 +44,7 @@ function placeOrder() {
                 }
             ])
             .then(function(answer) {
-                // console.log("Checking for.. " + answer.id);
                 for (var i = 0; i < res.length; i++) {
-                    // console.log(res[i].item_id === parseInt(answer.id));
                     if (res[i].item_id === parseInt(answer.id)) {
                         if (res[i].stock_quantity >= answer.units) {
                             connection.query(
@@ -81,6 +69,5 @@ function placeOrder() {
                     }
                 }
             });
-            // connection.end();
     });
 }
