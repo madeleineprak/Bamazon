@@ -51,6 +51,13 @@ function menuOptions() {
 
 // Displays summarized table of product sales by department
 function viewProductSales() {
+    
+
+    connection.query("SELECT departments.department_id, products.department_name, departments.over_head_costs, products.product_sales, (products.product_sales - departments.over_head_costs) AS total_profit FROM products LEFT JOIN departments ON products.department_name = departments.department_name GROUP BY department_name", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        askNext();
+    });
 
 }
 
