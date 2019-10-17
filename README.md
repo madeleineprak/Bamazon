@@ -5,7 +5,9 @@ Bamazon is a command line node app that serves as a marketplace. Based on which 
 Possible user perspectives:
 * Custome - has the ability to buy products
 * Manager - has the ability to view products for sale, view low inventory, add to inventory and add a new product
-* Supervisor - has the ability to view product sales by department and add a new department
+* Supervisor - has the ability to view product sales by department and add a new department 
+
+*Note: The supervisor perspective is still a work-in-progress--thank you for understanding.
 
 ## Tools Utilized
 * MySQL Workbench
@@ -34,6 +36,7 @@ The app uses MySQL to set up the bamazon database and the inquirer npm package t
 ![Manager](https://user-images.githubusercontent.com/26778117/66970972-376f6380-f044-11e9-85e0-1ba7eaf8ffb8.gif)
 
 ### Supervisor Perspective
+![Supervisor](https://user-images.githubusercontent.com/26778117/66985438-a7e0a980-f071-11e9-9da8-0c5b18410839.gif)
 
 ## Author(s)
 [Madeleine Prak](https://github.com/madeleineprak/)
