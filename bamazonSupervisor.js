@@ -74,14 +74,14 @@ function createNewDepartment() {
             // Adds new department to database
             .then(function(answer) {
                 connection.query(
-                    "INSERT INTO products SET ?",
+                    "INSERT INTO departments SET ?",
                     {
                         department_name: answer.name,
-                        over_head_costs: answer.costs || 0
+                        over_head_costs: parseFloat(answer.costs) || 0
                     },
                     function(err) {
                         if (err) throw err;
-                        console.log(answer.name + "(s) have been added.")
+                        console.log("The " + answer.name + " department has been added.")
                         askNext();
                     }
                 )
