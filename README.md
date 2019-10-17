@@ -28,8 +28,10 @@ The marketplace is stored in a MySQL database and has two tables: products and d
 The app uses MySQL to set up the bamazon database and the inquirer npm package to allow the user to interact with the database as a customer, manager or supervisor. Once the user chooses an action in the console, it calls a function that displays the result back to the user and updates the database if it applies.
 
 ### Customer Perspective
+![Customer](https://user-images.githubusercontent.com/26778117/66970968-34747300-f044-11e9-9d13-42d20e1d74f6.gif)
 
 ### Manager Perspective
+![Manager](https://user-images.githubusercontent.com/26778117/66970972-376f6380-f044-11e9-85e0-1ba7eaf8ffb8.gif)
 
 ### Supervisor Perspective
 
