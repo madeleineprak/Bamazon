@@ -38,6 +38,6 @@ CREATE TABLE departments (
     PRIMARY KEY (department_id)
 );
 
---Adds product sales to products database
+-- Adds product sales to products database
 ALTER TABLE products
 ADD COLUMN product_sales DECIMAL(13,2) default 0 AFTER stock_quantity;
